@@ -1,0 +1,19 @@
+.alerts-panel { padding: 20px; }
+.alerts-panel h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+.alerts-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 14px; }
+
+.alerts-list { display: flex; flex-direction: column; gap: 10px; }
+
+.alert-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: var(--bg-hover);
+  border-radius: 10px;
+}
+
+.alert-text { flex: 1; }
+.alert-loc { font-size: 0.8rem; font-weight: 600; }
+.alert-meta { font-size: 0.7rem; color: var(--text-muted); }
+.alert-time { font-size: 0.68rem; color: var(--text-muted); }
