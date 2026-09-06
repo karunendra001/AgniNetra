@@ -1,0 +1,12 @@
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+httpx>=0.27.0
+apscheduler>=3.10.4
+python-dotenv>=1.0.1
+
+# --- ML teammate needs these (classifier adapter loads a sklearn pipeline) ---
+scikit-learn>=1.4.0
+joblib>=1.3.2
+numpy>=1.26.0
+pandas>=2.0.0
+shapely>=2.0.0

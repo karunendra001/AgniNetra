@@ -1,0 +1,21 @@
+# macOS junk
+.DS_Store
+
+# Python backend
+backend/.venv/
+backend/__pycache__/
+**/__pycache__/
+*.pyc
+backend/.env          # contains the NASA MAP_KEY - NEVER commit this
+backend/data/         # local database, everyone builds their own
+backend/backend_server.log
+backend/backend.pid
+backend/*.pid
+# NOTE: backend/ml/model.pkl IS committed - it is the trained model deliverable
+
+# React frontend
+fire-detection-app/node_modules/
+fire-detection-app/frontend.log
+fire-detection-app/frontend.pid
+fire-detection-app/build/
+fire-detection-app/.env   # contains the Google Maps API key - NEVER commit
