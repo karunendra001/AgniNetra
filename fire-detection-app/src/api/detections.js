@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:8000';
 
 const api = axios.create({
   baseURL: API_BASE_URL,
@@ -43,6 +43,16 @@ export async function fetchDetections() {
  */
 export async function fetchStats() {
   const response = await api.get('/api/stats');
+  return response.data;
+}
+
+/**
+ * Fetch 7-day trend for the TrendChart.
+ * Expected response shape:
+ * [{ day: "Mon", fires: number, industrial: number }, ...]
+ */
+export async function fetchTrend(days = 7) {
+  const response = await api.get('/api/trend', { params: { days } });
   return response.data;
 }
 

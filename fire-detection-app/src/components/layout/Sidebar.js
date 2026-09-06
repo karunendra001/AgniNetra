@@ -10,7 +10,7 @@ const navItems = [
   { icon: <Settings size={19} />, label: 'Settings' },
 ];
 
-export default function Sidebar({ activeTab, setActiveTab }) {
+export default function Sidebar({ activeTab, setActiveTab, live = false, lastSyncLabel = null }) {
   return (
     <aside className="sidebar">
       <div className="sidebar-logo">
@@ -32,10 +32,12 @@ export default function Sidebar({ activeTab, setActiveTab }) {
       </nav>
 
       <div className="sidebar-footer">
-        <div className="status-dot" />
+        <div className={`status-dot ${live ? '' : 'offline'}`} />
         <div>
           <p className="status-text">FIRMS Feed</p>
-          <p className="status-sub">Live · Updated 3m ago</p>
+          <p className="status-sub">
+            {live ? `Live${lastSyncLabel ? ` · synced ${lastSyncLabel}` : ''}` : 'Offline — backend down'}
+          </p>
         </div>
       </div>
     </aside>

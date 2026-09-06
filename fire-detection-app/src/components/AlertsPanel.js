@@ -1,6 +1,6 @@
 import React from 'react';
-import { AlertTriangle } from 'lucide-react';
 import './AlertsPanel.css';
+import { emojiOf } from '../fireTypes';
 
 export default function AlertsPanel({ data }) {
   const highPriority = data.filter(d => d.confidence >= 85).slice(0, 4);
@@ -12,7 +12,7 @@ export default function AlertsPanel({ data }) {
       <div className="alerts-list">
         {highPriority.map(a => (
           <div key={a.id} className="alert-row">
-            <AlertTriangle size={16} color="var(--fire)" />
+            <span className="alert-emoji" title={a.classification}>{emojiOf(a.classification)}</span>
             <div className="alert-text">
               <p className="alert-loc">{a.location}</p>
               <p className="alert-meta">{a.classification} · {a.confidence}% confidence</p>

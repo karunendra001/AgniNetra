@@ -1,3 +1,27 @@
+/* ---- live/offline source banner ---- */
+.source-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  margin-bottom: 14px;
+  border: 1px solid;
+}
+
+.source-banner.live {
+  background: rgba(46, 213, 115, 0.08);
+  border-color: rgba(46, 213, 115, 0.35);
+  color: #7bed9f;
+}
+
+.source-banner.offline {
+  background: rgba(255, 71, 87, 0.1);
+  border-color: rgba(255, 71, 87, 0.4);
+  color: #ff6b81;
+}
+
 .app-shell {
   display: flex;
   height: 100vh;

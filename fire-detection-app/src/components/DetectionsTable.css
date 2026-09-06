@@ -10,6 +10,25 @@
 .table-header-row h3 { font-size: 0.95rem; font-weight: 600; }
 .table-count { font-size: 0.72rem; color: var(--text-muted); }
 
+.export-cluster { display: flex; align-items: center; gap: 6px; }
+
+.export-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--tech-blue);
+  background: var(--bg-hover);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 9px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.export-btn:hover { border-color: var(--tech-blue); transform: translateY(-1px); }
+
 .table-scroll { overflow-x: auto; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }

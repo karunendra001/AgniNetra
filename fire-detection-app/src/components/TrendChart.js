@@ -1,7 +1,7 @@
 import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 
-const trendData = [
+const fallbackTrendData = [
   { day: 'Mon', fires: 8, industrial: 14 },
   { day: 'Tue', fires: 12, industrial: 16 },
   { day: 'Wed', fires: 6, industrial: 15 },
@@ -11,7 +11,8 @@ const trendData = [
   { day: 'Sun', fires: 13, industrial: 18 },
 ];
 
-export default function TrendChart() {
+export default function TrendChart({ data }) {
+  const trendData = Array.isArray(data) && data.length ? data : fallbackTrendData;
   return (
     <div>
       <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: 4 }}>7-Day Detection Trend</h3>
