@@ -28,7 +28,7 @@ export default function ClassificationChart({ data }) {
               <Cell key={entry.name} fill={COLORS[i % COLORS.length]} stroke="none" />
             ))}
           </Pie>
-          <Tooltip contentStyle={{ background: '#131a2b', border: '1px solid #263049', borderRadius: 8, fontSize: 12 }} />
+          <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, color: 'var(--text-primary)' }} />
           <Legend
             layout="vertical"
             verticalAlign="middle"

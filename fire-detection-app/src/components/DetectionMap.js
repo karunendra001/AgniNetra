@@ -45,6 +45,7 @@ export default function DetectionMap({ data, activeFilter, setActiveFilter }) {
       </div>
 
       <MapContainer center={[21.5, 80]} zoom={5} className="leaflet-box" zoomControl={false} attributionControl={false}>
+<<<<<<< HEAD
         <LayersControl position="topright">
           <LayersControl.BaseLayer checked name="🛰️ Google Satellite">
             <TileLayer
@@ -75,6 +76,12 @@ export default function DetectionMap({ data, activeFilter, setActiveFilter }) {
           </LayersControl.BaseLayer>
         </LayersControl>
 
+=======
+        <TileLayer
+          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+          attribution='&copy; OpenStreetMap &copy; CARTO'
+        />
+>>>>>>> 95ea0d0 (changed the theme to light)
         {data.map(d => (
           <CircleMarker
             key={d.id}
