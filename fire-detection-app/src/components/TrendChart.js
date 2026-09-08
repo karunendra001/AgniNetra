@@ -31,10 +31,10 @@ export default function TrendChart({ data }) {
               <stop offset="95%" stopColor="#ff9f43" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="var(--border-light)" />
-          <XAxis dataKey="day" stroke="var(--text-muted)" fontSize={11} />
-          <YAxis stroke="var(--text-muted)" fontSize={11} />
-          <Tooltip contentStyle={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12, color: 'var(--text-primary)' }} />
+          <CartesianGrid strokeDasharray="3 3" stroke="#1a2338" />
+          <XAxis dataKey="day" stroke="#5c6785" fontSize={11} />
+          <YAxis stroke="#5c6785" fontSize={11} />
+          <Tooltip contentStyle={{ background: '#131a2b', border: '1px solid #263049', borderRadius: 8, fontSize: 12 }} />
           <Area type="monotone" dataKey="fires" stroke="#ff4757" fill="url(#fireGrad)" strokeWidth={2} />
           <Area type="monotone" dataKey="industrial" stroke="#ff9f43" fill="url(#indGrad)" strokeWidth={2} />
         </AreaChart>

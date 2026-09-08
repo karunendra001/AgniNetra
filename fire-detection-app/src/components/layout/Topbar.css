@@ -5,7 +5,7 @@
     justify-content: space-between;
     padding: 0 28px;
     border-bottom: 1px solid var(--border);
-    background: #b6d1c6;
+    background: var(--bg-secondary);
   }
   
   .topbar h1 { font-size: 1.15rem; font-weight: 600; }
