@@ -8,6 +8,7 @@ import ClassificationChart from './components/ClassificationChart';
 import TrendChart from './components/TrendChart';
 import DetectionsTable from './components/DetectionsTable';
 import AlertsPanel from './components/AlertsPanel';
+import Settings from './components/Settings';
 import { Flame, Factory, Waves, ShieldAlert, Satellite } from 'lucide-react';
 import { fetchDetections, fetchStats, fetchTrend } from './api/detections';
 
@@ -165,17 +166,7 @@ function App() {
           )}
 
           {activeTab === 'Settings' && (
-            <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ marginBottom: 8 }}>Settings</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                API endpoint: <code>{process.env.REACT_APP_API_URL || 'http://localhost:8000'}</code><br />
-                Data source: <b style={{ color: live ? 'lightgreen' : 'orange' }}>
-                  {live ? 'LIVE NASA FIRMS (real-time)' : 'OFFLINE'}
-                </b><br />
-                {lastSync && <>Last satellite sync: <b>{new Date(lastSync).toLocaleString()}</b><br /></>}
-                Alert thresholds & refresh interval config — coming soon.
-              </p>
-            </div>
+            <Settings live={live} lastSync={lastSync} />
           )}
 
         </div>
