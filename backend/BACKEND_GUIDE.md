@@ -109,3 +109,45 @@ uvicorn app.main:app --reload --port 5000
 - **Forest fires:** Similipal (Odisha), Uttarakhand summer
 
 Filter FIRMS API by these bboxes during the demo for fast, focused results.
+
+## 7. Model validation report (prove the AI works)
+
+    cd backend && ./.venv/bin/python validate_model.py
+
+Re-trains with the team's exact recipe (stratified 80/20 split, XGBoost 200 trees),
+then writes to `backend/reports/`:
+- `MODEL_VALIDATION.md` — one-pager for the PPT (accuracy, per-class metrics, caveats)
+- `confusion_matrix.png` + `feature_importance.png` — drop straight into slides
+- `validation_report.json` — served live by `GET /api/model/validation` (Settings tab shows it)
+
+Current result: **95.4% accuracy, 95.3% weighted F1** across 6 classes.
+
+## 8. Real alerting (ntfy push / email)
+
+Trigger rule: Industrial or Persistent classification + ML confidence >= 85 +
+within 5 km of a named OSM facility + not alerted in the last 6 h (per location).
+Every fired alert is stored in the `alerts` table with a resolved street address
+(Google Geocoding, free OSM/Nominatim fallback, cached in `geocode_cache`) and a
+delivery status (`sent` / `logged` / `failed`) — shown in the Priority Alerts panel.
+
+### Channels
+
+| Channel | Setup time | What you do |
+|---|---|---|
+| **ntfy phone push** | ~1 min, no account | Install the ntfy app → pick a topic (e.g. `agni-fire-26162`) → link it in Settings → subscribe to the same topic in the app. Alerts pop on your phone instantly. |
+| **Authority email** | ~3 min | In Settings: (1) connect the SMTP sender account (Gmail + 16-char app password), (2) save the authority recipient list — District Magistrate, SDMA, Pollution Control Board, factory safety officers. Every alert goes out as a formal HTML incident notice with location, confidence, satellite source and a map link — ready to forward. Or via .env: SMTP_* + AUTHORITY_EMAILS. |
+
+All channels fire simultaneously; link any subset. An alert with no channel
+linked is stored with status `logged` (a complete record shown on the
+dashboard) — `failed` means a linked channel genuinely errored.
+Channel credentials entered in Settings are stored in the DB `meta` table
+(gitignored), never in the repo.
+
+Diagnostics: `GET /api/admin/alert-status` reports whether ntfy/email are
+configured and reachable, the geocoding provider, and pipeline counters — this is
+the answer to "is alerting actually working?".
+Tuning knobs: ALERT_MIN_CONFIDENCE, ALERT_RADIUS_KM, ALERT_COOLDOWN_HOURS.
+
+API: `GET /api/alerts` · `GET /api/admin/alert-status` · `POST /api/admin/test-alert`
+· `POST /api/admin/ntfy/activate` · `POST /api/admin/email/sender`
+· `GET|POST /api/admin/authorities`.

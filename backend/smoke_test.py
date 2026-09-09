@@ -38,13 +38,18 @@ assert r.status_code == 200
 assert all(set(x) == {"day", "fires", "industrial"} for x in r.json())
 print("GET /api/trend     ->", r.json())
 
-# every detection in the DB must come from a real satellite, not seeds
+# every detection must come from a real FIRMS satellite feed — seed rows used
+# generic satellite names ("seed", "test"...) or had no satellite at all
 import sqlite3
 from app.config import settings
 conn = sqlite3.connect(settings.db_path)
-named = conn.execute("SELECT COUNT(*) FROM detections WHERE location IS NOT NULL").fetchone()[0]
+total = conn.execute("SELECT COUNT(*) FROM detections").fetchone()[0]
+fake = conn.execute(
+    "SELECT COUNT(*) FROM detections WHERE satellite IS NULL "
+    "OR satellite NOT IN ('VIIRS-SNPP', 'VIIRS-NOAA20', 'MODIS')"
+).fetchone()[0]
 conn.close()
-assert named == 0, f"{named} seed rows still present!"
-print("data purity        -> 0 seed rows, all detections are real FIRMS data")
+assert fake == 0, f"{fake} of {total} rows are not real FIRMS satellite data!"
+print(f"data purity        -> {total} rows, all from real FIRMS satellites (0 fake)")
 
 print("\nALL SMOKE TESTS PASSED ✅")

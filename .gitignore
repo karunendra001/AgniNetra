@@ -9,8 +9,10 @@ backend/__pycache__/
 backend/.env          # contains the NASA MAP_KEY - NEVER commit this
 backend/data/         # local database, everyone builds their own
 backend/backend_server.log
+backend/server.log
 backend/backend.pid
 backend/*.pid
+backend/server.pid
 # NOTE: backend/ml/model.pkl IS committed - it is the trained model deliverable
 
 # React frontend
@@ -19,3 +21,7 @@ fire-detection-app/frontend.log
 fire-detection-app/frontend.pid
 fire-detection-app/build/
 fire-detection-app/.env   # contains the Google Maps API key - NEVER commit
+
+# daemon scripts write logs at the repo root
+frontend.pid
+frontend_dev.log
