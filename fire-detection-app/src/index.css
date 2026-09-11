@@ -1,24 +1,35 @@
 :root {
-  --bg-primary: #0a0e17;
-  --bg-secondary: #101625;
-  --bg-card: #131a2b;
-  --bg-hover: #1a2338;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-light: rgba(255, 255, 255, 0.1);
-  --text-primary: #f1f5f9;
-  --text-secondary: #8b96ab;
-  --text-muted: #5c6785;
+  --bg-primary: #f4f7fb;
+  --bg-secondary: #ffffff;
+  --bg-card: #ffffff;
+  --bg-hover: #eef4ff;
 
-  --fire: #ff4757;
-  --industrial: #ff9f43;
-  --persistent: #a55eea;
-  --unclassified: #576574;
-  --tech-blue: #3b82f6;
-  --success: #2ed573;
-  --warning: #ffa502;
+  --border: #e2e8f0;
+  --border-light: #d7e0ea;
 
-  --radius: 14px;
+  --text-primary: #172033;
+  --text-secondary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* Detection colors */
+  --fire: #dc2626;
+  --industrial: #ea8a00;
+  --persistent: #7c3aed;
+  --unclassified: #64748b;
+
+  /* UI colors */
+  --tech-blue: #2563eb;
+  --success: #16a34a;
+  --warning: #d97706;
+
+  --radius: 12px;
   --radius-sm: 8px;
+
+  /* KPI card backgrounds */
+  --card-blue: #f4f8ff;
+  --card-red: #fff7f7;
+  --card-orange: #fffaf2;
+  --card-purple: #faf7ff;
 }
 
 * {
@@ -27,7 +38,9 @@
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
 }
@@ -39,13 +52,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #263049; border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: #324063; }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
 
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
 }

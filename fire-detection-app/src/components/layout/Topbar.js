@@ -43,7 +43,7 @@ export default function Topbar({ searchQuery, setSearchQuery, alerts, showAlerts
           )}
         </div>
 
-        <div className="avatar">SIH</div>
+        
       </div>
     </header>
   );
