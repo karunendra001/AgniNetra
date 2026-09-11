@@ -1,0 +1,62 @@
+# AgniNetra — Render Blueprint
+# Deploys BOTH services from this repo in one click:
+#   Backend  : FastAPI + APScheduler + ML classifier + SQLite  (agninetra-api)
+#   Frontend : React (CRA) static build                        (agninetra-web)
+#
+# How to use: Render Dashboard -> New + -> Blueprint -> pick this repo/branch -> Apply.
+# Secrets (sync: false) are set afterwards under each service -> Environment.
+
+services:
+  # ---------------- Backend ----------------
+  - type: web
+    name: agninetra-api
+    runtime: python
+    plan: free
+    rootDir: backend
+    buildCommand: "pip install --upgrade pip && pip install -r requirements.txt"
+    startCommand: "uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      # --- secrets: set these in the Render dashboard ---
+      - key: FIRMS_MAP_KEY          # NASA FIRMS API key (required for auto-ingest)
+        sync: false
+      - key: GOOGLE_MAPS_API_KEY    # optional; OSM fallback used if blank
+        sync: false
+      # --- app config (sane defaults, edit in dashboard if needed) ---
+      - key: FIRMS_SOURCES
+        value: VIIRS_SNPP_NRT,VIIRS_NOAA20_NRT
+      - key: FIRMS_DAY_RANGE
+        value: "7"
+      - key: FIRMS_BBOX
+        value: 68.0,6.0,97.5,35.5
+      - key: INGEST_INTERVAL_MINUTES
+        value: "10"
+      - key: USE_ML_MODEL
+        value: "true"
+      - key: MODEL_PATH
+        value: ml/model.pkl
+      - key: DB_PATH
+        value: data/fires.db
+      - key: CORS_ORIGINS
+        value: http://localhost:3000,https://agninetra-web.onrender.com
+      - key: PYTHON_VERSION
+        value: "3.12"
+
+  # ---------------- Frontend ----------------
+  - type: web
+    name: agninetra-web
+    runtime: static
+    rootDir: fire-detection-app
+    buildCommand: "npm ci && npm run build"
+    staticPublishPath: build
+    pullRequestPreviewsEnabled: true
+    routes:
+      # CRA is a SPA: send every route to index.html
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      # Must match the backend service's real URL (render.yaml name -> onrender.com URL)
+      - key: REACT_APP_API_URL
+        value: https://agninetra-api.onrender.com
