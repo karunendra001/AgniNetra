@@ -1,19 +1,8 @@
 import React from 'react';
-<<<<<<< HEAD
 
-import {
-  AreaChart,
-  Area,
-  XAxis,
-  YAxis,
-  Tooltip,
-  ResponsiveContainer,
-  CartesianGrid
-=======
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer,
   CartesianGrid, Legend,
->>>>>>> 01abda1ff2a63e3b1dc2a3289b8023dc2d54906e
 } from 'recharts';
 
 const fallbackTrendData = [
@@ -39,7 +28,6 @@ export default function TrendChart({ data }) {
 
   return (
     <div>
-<<<<<<< HEAD
       <h3
         style={{
           fontSize: '0.95rem',
@@ -48,7 +36,7 @@ export default function TrendChart({ data }) {
           color: 'var(--text-primary)'
         }}
       >
-        7-Day Detection Trend
+        7-Day Detection Trend by Fire Type
       </h3>
 
       <p
@@ -58,49 +46,18 @@ export default function TrendChart({ data }) {
           marginBottom: 14
         }}
       >
-        Vegetation fires vs. industrial thermal sources
+        Daily counts per classified type — same colors as the map markers
       </p>
 
-      <ResponsiveContainer width="100%" height={220}>
-        <AreaChart data={trendData}>
+      <ResponsiveContainer width="100%" height={240}>
+        <AreaChart data={trendData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
           <defs>
-            <linearGradient
-              id="fireGrad"
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="1"
-            >
-              <stop
-                offset="5%"
-                stopColor="#dc2626"
-                stopOpacity={0.25}
-              />
-              <stop
-                offset="95%"
-                stopColor="#dc2626"
-                stopOpacity={0}
-              />
-            </linearGradient>
-
-            <linearGradient
-              id="indGrad"
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="1"
-            >
-              <stop
-                offset="5%"
-                stopColor="#ea8a00"
-                stopOpacity={0.25}
-              />
-              <stop
-                offset="95%"
-                stopColor="#ea8a00"
-                stopOpacity={0}
-              />
-            </linearGradient>
+            {SERIES.map(s => (
+              <linearGradient key={s.key} id={`grad-${s.key}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={s.color} stopOpacity={0.25} />
+                <stop offset="95%" stopColor={s.color} stopOpacity={0} />
+              </linearGradient>
+            ))}
           </defs>
 
           <CartesianGrid
@@ -130,48 +87,13 @@ export default function TrendChart({ data }) {
             }}
           />
 
-          <Area
-            type="monotone"
-            dataKey="fires"
-            stroke="#dc2626"
-            fill="url(#fireGrad)"
-            strokeWidth={2}
-          />
-
-          <Area
-            type="monotone"
-            dataKey="industrial"
-            stroke="#ea8a00"
-            fill="url(#indGrad)"
-            strokeWidth={2}
-          />
-=======
-      <h3 style={{ fontSize: '0.95rem', fontWeight: 600, marginBottom: 4 }}>
-        7-Day Detection Trend by Fire Type
-      </h3>
-      <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 14 }}>
-        Daily counts per classified type — same colors as the map markers
-      </p>
-      <ResponsiveContainer width="100%" height={240}>
-        <AreaChart data={trendData} margin={{ top: 5, right: 10, left: -10, bottom: 5 }}>
-          <defs>
-            {SERIES.map(s => (
-              <linearGradient key={s.key} id={`grad-${s.key}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={s.color} stopOpacity={0.4} />
-                <stop offset="95%" stopColor={s.color} stopOpacity={0} />
-              </linearGradient>
-            ))}
-          </defs>
-          <CartesianGrid strokeDasharray="3 3" stroke="#1a2338" />
-          <XAxis dataKey="day" stroke="#5c6785" fontSize={11} />
-          <YAxis stroke="#5c6785" fontSize={11} />
-          <Tooltip contentStyle={{ background: '#131a2b', border: '1px solid #263049', borderRadius: 8, fontSize: 12 }} />
           <Legend
             verticalAlign="top"
             height={30}
             iconType="circle"
             wrapperStyle={{ fontSize: 11 }}
           />
+
           {SERIES.map(s => (
             <Area
               key={s.key}
@@ -184,7 +106,6 @@ export default function TrendChart({ data }) {
               connectNulls
             />
           ))}
->>>>>>> 01abda1ff2a63e3b1dc2a3289b8023dc2d54906e
         </AreaChart>
       </ResponsiveContainer>
     </div>

@@ -1,6 +1,12 @@
-<<<<<<< HEAD
 .alerts-panel {
   padding: 20px;
+}
+
+.alerts-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
 }
 
 .alerts-panel h3 {
@@ -15,22 +21,6 @@
   color: var(--text-muted);
   margin-bottom: 14px;
 }
-
-.alerts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-=======
-.alerts-panel { padding: 20px; }
-.alerts-head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 10px;
-}
-.alerts-panel h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
-.alerts-sub { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 14px; }
 
 .push-btn {
   font-size: 0.68rem;
@@ -52,8 +42,11 @@
   padding-top: 4px;
 }
 
-.alerts-list { display: flex; flex-direction: column; gap: 10px; }
->>>>>>> 01abda1ff2a63e3b1dc2a3289b8023dc2d54906e
+.alerts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 .alert-row {
   display: flex;
@@ -77,7 +70,6 @@
   filter: none;
 }
 
-<<<<<<< HEAD
 .alert-text {
   flex: 1;
 }
@@ -97,11 +89,6 @@
   font-size: 0.68rem;
   color: var(--text-muted);
 }
-=======
-.alert-text { flex: 1; }
-.alert-loc { font-size: 0.8rem; font-weight: 600; }
-.alert-meta { font-size: 0.7rem; color: var(--text-muted); }
-.alert-time { font-size: 0.68rem; color: var(--text-muted); }
 
 /* real (facility) alerts get an accent border so they stand out */
 .alert-row.alert-real {
@@ -149,4 +136,3 @@
 .chip-sent    { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
 .chip-logged  { background: rgba(149, 165, 166, 0.18); color: #95a5a6; }
 .chip-failed  { background: rgba(231, 76, 60, 0.18);  color: #e74c3c; }
->>>>>>> 01abda1ff2a63e3b1dc2a3289b8023dc2d54906e

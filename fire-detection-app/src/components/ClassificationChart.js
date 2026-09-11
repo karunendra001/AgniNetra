@@ -5,8 +5,7 @@ import {
   Pie,
   Cell,
   ResponsiveContainer,
-  Tooltip,
-  Legend
+  Tooltip
 } from 'recharts';
 
 const COLORS = [
@@ -51,14 +50,16 @@ export default function ClassificationChart({ data }) {
         FIRMS hotspots cross-referenced with OSM infrastructure tags
       </p>
 
-      <ResponsiveContainer width="100%" height={230}>
+      <ResponsiveContainer width="100%" height={210}>
         <PieChart>
           <Pie
             data={chartData}
             dataKey="value"
             nameKey="name"
-            innerRadius={55}
-            outerRadius={85}
+            cx="50%"
+            cy="50%"
+            innerRadius={52}
+            outerRadius={80}
             paddingAngle={3}
           >
             {chartData.map((entry, i) => (
@@ -80,19 +81,43 @@ export default function ClassificationChart({ data }) {
               boxShadow: '0 6px 18px rgba(15, 23, 42, 0.12)'
             }}
           />
-
-          <Legend
-            layout="vertical"
-            verticalAlign="middle"
-            align="right"
-            wrapperStyle={{
-              fontSize: 11,
-              lineHeight: '20px',
-              color: '#64748b'
-            }}
-          />
         </PieChart>
       </ResponsiveContainer>
+
+      {/* wrapped legend under the chart — never overlaps the donut */}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          gap: '6px 14px',
+          justifyContent: 'center',
+          marginTop: 2
+        }}
+      >
+        {chartData.map((entry, i) => (
+          <span
+            key={entry.name}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              fontSize: 11,
+              color: '#64748b'
+            }}
+          >
+            <span
+              style={{
+                width: 9,
+                height: 9,
+                borderRadius: '50%',
+                background: COLORS[i % COLORS.length],
+                display: 'inline-block'
+              }}
+            />
+            {entry.name}
+          </span>
+        ))}
+      </div>
     </div>
   );
 }

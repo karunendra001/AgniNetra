@@ -166,21 +166,7 @@ function App() {
           )}
 
           {activeTab === 'Settings' && (
-<<<<<<< HEAD
-            <div className="card" style={{ padding: 24 }}>
-              <h3 style={{ marginBottom: 8 }}>Settings</h3>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
-                API endpoint: <code>{process.env.REACT_APP_API_URL || 'http://localhost:8000'}</code><br />
-                Data source: <b style={{ color: live ? 'var(--success)' : 'var(--warning)' }}>
-                  {live ? 'LIVE NASA FIRMS (real-time)' : 'OFFLINE'}
-                </b><br />
-                {lastSync && <>Last satellite sync: <b>{new Date(lastSync).toLocaleString()}</b><br /></>}
-                Alert thresholds & refresh interval config — coming soon.
-              </p>
-            </div>
-=======
             <Settings live={live} lastSync={lastSync} />
->>>>>>> 01abda1ff2a63e3b1dc2a3289b8023dc2d54906e
           )}
 
         </div>

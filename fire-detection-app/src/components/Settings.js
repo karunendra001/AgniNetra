@@ -239,10 +239,10 @@ export default function Settings({ live, lastSync }) {
               status.email.fully_configured
                 ? `${status.email.sender} → ${status.email.authorities.length} authority address(es)`
                 : 'sender or recipients missing')}
-            {pill(true, `📍 ${status.geocoding.provider}`, status.geocoding.note || '')}
+            {pill(true, `📍 ${status.geocoding.provider}`, '')}
           </div>
         )}
-        {status?.geocoding?.note && (
+        {false && status?.geocoding?.note && (
           <p className="settings-muted" style={{ color: '#f1c40f' }}>
             ⚠️ {status.geocoding.note}
           </p>
