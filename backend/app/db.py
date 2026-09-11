@@ -75,6 +75,7 @@ MIGRATION_COLUMNS = [
 
 def init_db() -> None:
     with get_connection() as conn:
+        conn.execute("PRAGMA journal_mode=WAL")  # concurrent readers + scheduler writer
         conn.executescript(SCHEMA)
         existing = {r["name"] for r in conn.execute("PRAGMA table_info(detections)").fetchall()}
         for col, coltype in MIGRATION_COLUMNS:

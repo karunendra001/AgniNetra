@@ -1,0 +1,171 @@
+{
+  "generated_at": "2026-09-07T13:40:33Z",
+  "model_type": "XGBoost multi-class classifier",
+  "n_estimators": 200,
+  "max_depth": 6,
+  "dataset_rows": 8297,
+  "train_rows": 6637,
+  "test_rows": 1660,
+  "classes": [
+    "crop_burning",
+    "gas_flare",
+    "industrial_fire",
+    "mining_activity",
+    "unclassified_other",
+    "wildfire"
+  ],
+  "class_distribution": {
+    "wildfire": 3023,
+    "crop_burning": 2417,
+    "industrial_fire": 1101,
+    "unclassified_other": 1065,
+    "mining_activity": 466,
+    "gas_flare": 225
+  },
+  "accuracy": 0.9542,
+  "precision": 0.9532,
+  "recall": 0.9542,
+  "f1": 0.9535,
+  "per_class": {
+    "crop_burning": {
+      "precision": 0.9896265560165975,
+      "recall": 0.9855371900826446,
+      "f1-score": 0.9875776397515528,
+      "support": 484.0
+    },
+    "gas_flare": {
+      "precision": 0.6744186046511628,
+      "recall": 0.6444444444444445,
+      "f1-score": 0.6590909090909091,
+      "support": 45.0
+    },
+    "industrial_fire": {
+      "precision": 0.8942731277533039,
+      "recall": 0.9227272727272727,
+      "f1-score": 0.9082774049217002,
+      "support": 220.0
+    },
+    "mining_activity": {
+      "precision": 0.8072289156626506,
+      "recall": 0.7204301075268817,
+      "f1-score": 0.7613636363636364,
+      "support": 93.0
+    },
+    "unclassified_other": {
+      "precision": 0.9726027397260274,
+      "recall": 1.0,
+      "f1-score": 0.9861111111111112,
+      "support": 213.0
+    },
+    "wildfire": {
+      "precision": 0.9818481848184818,
+      "recall": 0.9834710743801653,
+      "f1-score": 0.9826589595375722,
+      "support": 605.0
+    },
+    "accuracy": 0.9542168674698795,
+    "macro avg": {
+      "precision": 0.8866663547713706,
+      "recall": 0.8761016815269015,
+      "f1-score": 0.8808466101294136,
+      "support": 1660.0
+    },
+    "weighted avg": {
+      "precision": 0.9532066282894665,
+      "recall": 0.9542168674698795,
+      "f1-score": 0.9535089475905617,
+      "support": 1660.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      477,
+      7,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      5,
+      29,
+      0,
+      0,
+      1,
+      10
+    ],
+    [
+      0,
+      0,
+      203,
+      15,
+      2,
+      0
+    ],
+    [
+      0,
+      0,
+      22,
+      67,
+      3,
+      1
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      213,
+      0
+    ],
+    [
+      0,
+      7,
+      2,
+      1,
+      0,
+      595
+    ]
+  ],
+  "feature_importance": [
+    {
+      "feature": "landcover_class",
+      "importance": 0.5032
+    },
+    {
+      "feature": "daynight",
+      "importance": 0.2191
+    },
+    {
+      "feature": "distance_to_facility_m",
+      "importance": 0.1518
+    },
+    {
+      "feature": "unique_days",
+      "importance": 0.0501
+    },
+    {
+      "feature": "bright_ti4",
+      "importance": 0.0242
+    },
+    {
+      "feature": "confidence",
+      "importance": 0.0205
+    },
+    {
+      "feature": "detection_count",
+      "importance": 0.015
+    },
+    {
+      "feature": "bright_ti5",
+      "importance": 0.0083
+    },
+    {
+      "feature": "frp",
+      "importance": 0.0079
+    }
+  ],
+  "saved_model_matches": true,
+  "saved_model_accuracy": 0.9542,
+  "train_seconds": 1.6
+}

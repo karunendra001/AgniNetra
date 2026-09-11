@@ -58,17 +58,19 @@ def compute_stats() -> Stats:
 
 
 def compute_trend(days: int = 7) -> list[dict]:
-    """Per-day counts for the TrendChart: [{day: 'Mon', fires, industrial}, ...]."""
+    """Per-day counts per fire type for the TrendChart:
+    [{day: 'Mon', vegetation, industrial, persistent}, ...]."""
     window = f"-{max(1, days) * 24} hours"
     with get_connection() as conn:
         rows = conn.execute(
             """
             SELECT date(acquired_at) AS day,
                    SUM(CASE WHEN classification = 'Vegetation Fire'
-                       THEN 1 ELSE 0 END) AS fires,
-                   SUM(CASE WHEN classification IN ('Industrial Heat Source',
-                                                    'Persistent Thermal Anomaly')
-                       THEN 1 ELSE 0 END) AS industrial
+                       THEN 1 ELSE 0 END) AS vegetation,
+                   SUM(CASE WHEN classification = 'Industrial Heat Source'
+                       THEN 1 ELSE 0 END) AS industrial,
+                   SUM(CASE WHEN classification = 'Persistent Thermal Anomaly'
+                       THEN 1 ELSE 0 END) AS persistent
             FROM detections
             WHERE acquired_at >= datetime('now', ?)
             GROUP BY day
@@ -76,11 +78,13 @@ def compute_trend(days: int = 7) -> list[dict]:
             (window,),
         ).fetchall()
 
-    by_day = {r["day"]: (r["fires"], r["industrial"]) for r in rows}
+    by_day = {r["day"]: (r["vegetation"], r["industrial"], r["persistent"])
+              for r in rows}
     out = []
     today = date.today()
     for i in range(max(1, days) - 1, -1, -1):
         d = today - timedelta(days=i)
-        fires, industrial = by_day.get(d.isoformat(), (0, 0))
-        out.append({"day": d.strftime("%a"), "fires": fires, "industrial": industrial})
+        veg, ind, per = by_day.get(d.isoformat(), (0, 0, 0))
+        out.append({"day": d.strftime("%a"), "vegetation": veg,
+                    "industrial": ind, "persistent": per})
     return out

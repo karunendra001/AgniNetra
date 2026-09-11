@@ -20,9 +20,11 @@ log = logging.getLogger("fire-backend")
 async def _scheduled_ingest():
     from .ingestion.firms import run_ingest
     from .ml.classifier import run_ml_pipeline
+    from .alerting import check_and_alert
     result = await run_ingest()
     ml = run_ml_pipeline()
-    log.info("Scheduled ingest: %s | ML: %s", result, ml)
+    alerts = await check_and_alert()
+    log.info("Scheduled ingest: %s | ML: %s | alerts: %s", result, ml, alerts)
 
 
 @asynccontextmanager
@@ -62,8 +64,8 @@ def root():
     from .ml.classifier import _load_payload
     return {
         "service": "SIH26162 fire-detection backend",
-        "endpoints": ["/api/detections", "/api/stats", "/api/admin/ingest",
-                      "/api/admin/reclassify", "/docs"],
+        "endpoints": ["/api/detections", "/api/stats", "/api/alerts",
+                      "/api/model/validation", "/api/export", "/docs"],
         "firms_configured": settings.firms_configured,
         "ml_model_active": _load_payload() is not None,
     }

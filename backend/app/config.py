@@ -32,6 +32,11 @@ class Settings:
             if o.strip()
         ]
 
+        # Alerting (optional channels; alert log always recorded in DB)
+        self.alert_min_confidence: float = float(os.getenv("ALERT_MIN_CONFIDENCE", "85"))
+        self.alert_radius_km: float = float(os.getenv("ALERT_RADIUS_KM", "5"))
+        self.alert_cooldown_hours: float = float(os.getenv("ALERT_COOLDOWN_HOURS", "6"))
+
     @property
     def firms_configured(self) -> bool:
         return bool(self.firms_map_key)

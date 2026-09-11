@@ -8,6 +8,7 @@ import ClassificationChart from './components/ClassificationChart';
 import TrendChart from './components/TrendChart';
 import DetectionsTable from './components/DetectionsTable';
 import AlertsPanel from './components/AlertsPanel';
+import Settings from './components/Settings';
 import { Flame, Factory, Waves, ShieldAlert, Satellite } from 'lucide-react';
 import { fetchDetections, fetchStats, fetchTrend } from './api/detections';
 
@@ -165,6 +166,7 @@ function App() {
           )}
 
           {activeTab === 'Settings' && (
+<<<<<<< HEAD
             <div className="card" style={{ padding: 24 }}>
               <h3 style={{ marginBottom: 8 }}>Settings</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>
@@ -176,6 +178,9 @@ function App() {
                 Alert thresholds & refresh interval config — coming soon.
               </p>
             </div>
+=======
+            <Settings live={live} lastSync={lastSync} />
+>>>>>>> 01abda1ff2a63e3b1dc2a3289b8023dc2d54906e
           )}
 
         </div>
