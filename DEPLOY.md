@@ -55,6 +55,24 @@ echo "https://agninetra-api-e4aw.onrender.com" | vercel env add REACT_APP_API_UR
 > To get auto-deploys from Git instead, connect the repo in the Vercel dashboard
 > (Project → Settings → Git) — one click, needs GitHub authorization.
 
+## 2b. Two GitHub remotes (why, and how to push)
+
+The project repo `swastik20-7/SIH-HackSphere` belongs to a teammate. A private
+repo can only be handed to Vercel/Render by its **owner** (installing their Git
+app needs admin rights), so this clone also carries a fork on the maintainer's
+own account: **`Manyaaa-ops/SIH-HackSphere`**, and the Vercel project is linked
+to that fork.
+
+`origin` is configured with **two push URLs**, so a single push updates both the
+team repo and the fork (which is what triggers Vercel):
+
+```bash
+git push origin feature-cs56:main    # → swastik20-7/... AND Manyaaa-ops/...
+```
+
+Fetch still comes from the team repo, so `git pull` keeps working as before.
+If the fork ever drifts: `git push mine main` (the `mine` remote is the fork).
+
 ## 3. Secrets and config
 
 Render env vars (set on the service, never in the repo):
