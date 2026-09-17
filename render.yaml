@@ -27,7 +27,7 @@ services:
       - key: FIRMS_SOURCES
         value: VIIRS_SNPP_NRT,VIIRS_NOAA20_NRT
       - key: FIRMS_DAY_RANGE
-        value: "7"
+        value: "5"
       - key: FIRMS_BBOX
         value: 68.0,6.0,97.5,35.5
       - key: INGEST_INTERVAL_MINUTES
