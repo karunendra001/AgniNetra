@@ -3,6 +3,7 @@
 Run from backend/:
     uvicorn app.main:app --reload --port 5000
 """
+import asyncio
 import logging
 from contextlib import asynccontextmanager
 
@@ -27,6 +28,20 @@ async def _scheduled_ingest():
     log.info("Scheduled ingest: %s | ML: %s | alerts: %s", result, ml, alerts)
 
 
+async def _startup_ingest():
+    """Run one ingest cycle immediately on boot.
+
+    Needed on hosts that sleep when idle (e.g. Render free): the scheduler only
+    ticks while the process lives, and each wake-up resets its timer, so without
+    this a freshly started instance would serve an empty dashboard for the first
+    full interval — or forever, on an instance that keeps falling back asleep.
+    """
+    try:
+        await _scheduled_ingest()
+    except Exception:  # never let a bad fetch kill the app
+        log.exception("Startup ingest failed")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     init_db()
@@ -39,6 +54,9 @@ async def lifespan(app: FastAPI):
         )
         scheduler.start()
         log.info("Scheduler started: FIRMS ingest every %d min", settings.ingest_interval_minutes)
+        # Populate before the first scheduled tick (background, never blocking boot).
+        asyncio.create_task(_startup_ingest())
+        log.info("Startup ingest launched")
     else:
         log.warning("FIRMS_MAP_KEY missing - running without auto-ingest (set it in .env)")
     yield
