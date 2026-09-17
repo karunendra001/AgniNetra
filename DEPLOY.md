@@ -1,71 +1,88 @@
-# 🚀 Deploying AgniNetra to Render
+# 🚀 AgniNetra — Live Cloud Deployment
 
-One Blueprint file (`render.yaml`) deploys **both** services:
+**The app is deployed and running right now:**
 
-| Service | Type | URL (after deploy) |
+| Layer | Platform | URL |
 |---|---|---|
-| `agninetra-api` | Python (FastAPI + APScheduler + ML + SQLite) | `https://agninetra-api.onrender.com` |
-| `agninetra-web` | Static site (React build) | `https://agninetra-web.onrender.com` |
+| Dashboard (React) | **Vercel** | **https://agninetra.vercel.app** |
+| API (FastAPI + ML + scheduler) | **Render** | **https://agninetra-api-e4aw.onrender.com** |
+| API docs | Render | https://agninetra-api-e4aw.onrender.com/docs |
+
+Render service: `agninetra-api` (`srv-dalugou7bikc73akrg40`, free plan, Singapore).
+Vercel project: `agninetra` (`prj_1aRo8AG0InOlrlFwRngi6YnYrSX6`), branch `main`.
 
 ---
 
-## Step 0 — Prerequisites
+## 1. How it is wired
 
-- The repo pushed to GitHub (branch `feature-cs56` or merged to main)
-- A free [render.com](https://render.com) account (sign in with GitHub)
-- Your **NASA FIRMS MAP_KEY** (the same one in `backend/.env` locally)
-
-## Step 1 — Push this branch
-
-```bash
-cd SIH-HackSphere
-git push origin feature-cs56
+```
+Browser ──▶ https://agninetra.vercel.app        (static React build)
+                │  axios baseURL = https://agninetra-api-e4aw.onrender.com
+                ▼
+            https://agninetra-api-e4aw.onrender.com   (FastAPI)
+                ├── APScheduler: FIRMS ingest every 10 min + once at startup
+                ├── ML classifier (ml/model.pkl) → detections table (SQLite)
+                ├── Risk engine → alerts (ntfy push + authority email)
+                └── /api/export → GeoJSON / KML / CSV
 ```
 
-(Adds `render.yaml`, `.env.production`, and this guide.)
+Cross-origin access is allowed by `CORS_ORIGINS` **plus** a regex that accepts
+every `*.vercel.app` origin (production and preview deployments), so Vercel
+deploys never need a backend config change.
 
-## Step 2 — One-click deploy
+## 2. Updating the deployment
 
-1. Render Dashboard → **New +** → **Blueprint**
-2. Pick the `swastik20-7/SIH-HackSphere` repo → branch `feature-cs56` → **Apply**
-3. Render reads `render.yaml` and creates both services automatically.
+**Backend** — Render auto-deploys on every push to `main`:
 
-## Step 3 — Add the secret
+```bash
+git push origin main
+```
 
-`agninetra-api` → **Environment** → add:
+**Frontend** — the Vercel project is deployed via CLI (no Git link yet):
 
-| Key | Value |
+```bash
+npm i -g vercel
+cd fire-detection-app
+vercel --prod --yes          # after `vercel login`
+```
+
+Set the API URL once per environment (already set for Production):
+
+```bash
+echo "https://agninetra-api-e4aw.onrender.com" | vercel env add REACT_APP_API_URL production
+```
+
+> To get auto-deploys from Git instead, connect the repo in the Vercel dashboard
+> (Project → Settings → Git) — one click, needs GitHub authorization.
+
+## 3. Secrets and config
+
+Render env vars (set on the service, never in the repo):
+
+| Key | Notes |
 |---|---|
-| `FIRMS_MAP_KEY` | your NASA FIRMS key |
-| `GOOGLE_MAPS_API_KEY` | *(optional — leave blank to use free OSM geocoding)* |
+| `FIRMS_MAP_KEY` | NASA FIRMS key. **Required** for auto-ingest |
+| `GOOGLE_MAPS_API_KEY` | Optional; free OSM geocoding is the fallback |
+| `FIRMS_DAY_RANGE` | **Must be ≤ 5** — this key returns `400 Bad Request` for 7+ |
+| `CORS_ORIGINS`, `DB_PATH`, `MODEL_PATH`, `USE_ML_MODEL`, … | Sane defaults already applied |
 
-Save → the service redeploys automatically.
+Alert channels (ntfy topic, SMTP sender + app password, authority emails) are
+configured **in the deployed dashboard → Settings**, stored in the backend DB.
 
-## Step 4 — Verify
+## 4. Gotchas worth knowing
 
-- `https://agninetra-api.onrender.com/` → `{"status": "ok", ...}`
-- First ingest populates the DB within ~10 minutes of startup (scheduler runs immediately + every 10 min)
-- `https://agninetra-web.onrender.com/` → dashboard live, showing detections
-
-If the web service was created with a different name, the URL differs — update
-`CORS_ORIGINS` (backend) and `REACT_APP_API_URL` (frontend env var) to match, then redeploy.
-
-## Step 5 — Alerting on the cloud (optional)
-
-Same as local: open the deployed dashboard → **Settings** → connect the Gmail
-sender (16-char app password) + authority emails → **Send test alert**.
-Nothing in the code changes — config lives in the backend DB.
-
----
-
-## ⚠️ Free-tier caveats (know before the demo)
-
-| Caveat | Impact | Workaround |
+| Issue | Why | What to do |
 |---|---|---|
-| **Sleep after 15 min idle** | First request takes ~50 s to wake | Open the dashboard 2 min before judging |
-| **Ephemeral disk** | SQLite DB resets on every redeploy | Acceptable for demo; alerts re-accumulate within one ingest cycle |
-| **512 MB RAM** | ML pipeline fits comfortably; just don't add heavy jobs | — |
-| **Build minutes** | Unlimited on free tier for these two services | — |
+| Stats show `0` after a restart | SQLite is ephemeral on free tier and the DB starts empty | Wait ~2 min — the app now ingests **once on startup**, before the first 10-min tick |
+| `400 Bad Request` from NASA FIRMS | `FIRMS_DAY_RANGE` > 5 is rejected for this map key | Keep it at `5` |
+| First request after idle is slow (~50 s) | Render free instances sleep after 15 min | Open the dashboard a couple of minutes before presenting |
+| Vercel rejects a new deploy as `BLOCKED` | Vercel anti-abuse hold on the (new) account | Verify the account in the Vercel dashboard, then redeploy. The **live deployment keeps serving** meanwhile |
+| Data resets on redeploy | Free-tier ephemeral disk | The startup ingest refills it automatically |
 
-**Pro demo tip:** hit `https://agninetra-api.onrender.com/` once (or open the
-dashboard) a few minutes before presenting so both services are warm.
+## 5. Verify the deployment
+
+```bash
+curl https://agninetra-api-e4aw.onrender.com/            # service banner + flags
+curl https://agninetra-api-e4aw.onrender.com/api/stats   # live detection counts
+curl https://agninetra.vercel.app/                       # dashboard (200)
+```
