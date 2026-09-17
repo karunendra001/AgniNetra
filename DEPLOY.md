@@ -87,6 +87,24 @@ Render env vars (set on the service, never in the repo):
 Alert channels (ntfy topic, SMTP sender + app password, authority emails) are
 configured **in the deployed dashboard → Settings**, stored in the backend DB.
 
+## 3b. Commit identity (this blocks Vercel deployments)
+
+Vercel refuses to build commits whose author email is not linked to a Vercel
+account — the deployment shows up as **BLOCKED** with no build logs. On this
+machine git had no identity configured, so commits were authored as
+`manyadixit@<hostname>.local` and every Git deployment was blocked.
+
+Set the email used by the Vercel account:
+
+```bash
+git config user.name  "Manya Dixit"
+git config user.email "itsmadii0209@gmail.com"   # the Vercel account email
+```
+
+Add `--global` to apply it to every repo on the machine. After changing it,
+verify with `git log -1 --format='%an <%ae>'` and push again — the deploy
+should build instead of showing BLOCKED.
+
 ## 4. Gotchas worth knowing
 
 | Issue | Why | What to do |
