@@ -5,10 +5,10 @@
 
 | Metric | Score |
 |---|---|
-| **Accuracy** | **95.4%** |
+| **Accuracy** | **95.3%** |
 | Precision (weighted) | 95.3% |
-| Recall (weighted) | 95.4% |
-| F1 (weighted) | 95.4% |
+| Recall (weighted) | 95.3% |
+| F1 (weighted) | 95.3% |
 
 Deployed `model.pkl` reproduces this: ✅ yes (accuracy 95.4%).
 
@@ -16,16 +16,16 @@ Deployed `model.pkl` reproduces this: ✅ yes (accuracy 95.4%).
 
 | Class | Precision | Recall | F1 | Test rows |
 |---|---|---|---|---|
-| crop_burning | 99.0% | 98.6% | 98.8% | 484 |
-| gas_flare | 67.4% | 64.4% | 65.9% | 45 |
-| industrial_fire | 89.4% | 92.3% | 90.8% | 220 |
-| mining_activity | 80.7% | 72.0% | 76.1% | 93 |
-| unclassified_other | 97.3% | 100.0% | 98.6% | 213 |
-| wildfire | 98.2% | 98.3% | 98.3% | 605 |
+| crop_burning | 98.8% | 98.3% | 98.6% | 484 |
+| gas_flare | 63.8% | 66.7% | 65.2% | 45 |
+| industrial_fire | 89.4% | 91.8% | 90.6% | 220 |
+| mining_activity | 79.5% | 71.0% | 75.0% | 93 |
+| unclassified_other | 97.7% | 100.0% | 98.8% | 213 |
+| wildfire | 98.5% | 98.3% | 98.4% | 605 |
 
 ## What the model relies on
 
-Top features: **landcover_class** (50.3%), **daynight** (21.9%), **distance_to_facility_m** (15.2%).
+Top features: **landcover_class** (51.7%), **daynight** (20.0%), **distance_to_facility_m** (15.9%).
 
 ![Confusion matrix](confusion_matrix.png)
 
@@ -39,4 +39,4 @@ Top features: **landcover_class** (50.3%), **daynight** (21.9%), **distance_to_f
   accuracy on a brand-new region may be somewhat lower.
 - Landcover coverage is partial for live data (see enrichment notes).
 
-*Generated 2026-09-07 13:40 UTC · run `python validate_model.py` to regenerate*
+*Generated 2026-09-26 10:33 UTC · run `python validate_model.py` to regenerate*

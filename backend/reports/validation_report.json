@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-07T13:40:33Z",
+  "generated_at": "2026-09-26T10:33:05Z",
   "model_type": "XGBoost multi-class classifier",
   "n_estimators": 200,
   "max_depth": 6,
@@ -22,91 +22,91 @@
     "mining_activity": 466,
     "gas_flare": 225
   },
-  "accuracy": 0.9542,
-  "precision": 0.9532,
-  "recall": 0.9542,
-  "f1": 0.9535,
+  "accuracy": 0.953,
+  "precision": 0.9526,
+  "recall": 0.953,
+  "f1": 0.9526,
   "per_class": {
     "crop_burning": {
-      "precision": 0.9896265560165975,
-      "recall": 0.9855371900826446,
-      "f1-score": 0.9875776397515528,
+      "precision": 0.9875518672199171,
+      "recall": 0.9834710743801653,
+      "f1-score": 0.9855072463768116,
       "support": 484.0
     },
     "gas_flare": {
-      "precision": 0.6744186046511628,
-      "recall": 0.6444444444444445,
-      "f1-score": 0.6590909090909091,
+      "precision": 0.6382978723404256,
+      "recall": 0.6666666666666666,
+      "f1-score": 0.6521739130434783,
       "support": 45.0
     },
     "industrial_fire": {
-      "precision": 0.8942731277533039,
-      "recall": 0.9227272727272727,
-      "f1-score": 0.9082774049217002,
+      "precision": 0.8938053097345132,
+      "recall": 0.9181818181818182,
+      "f1-score": 0.905829596412556,
       "support": 220.0
     },
     "mining_activity": {
-      "precision": 0.8072289156626506,
-      "recall": 0.7204301075268817,
-      "f1-score": 0.7613636363636364,
+      "precision": 0.7951807228915663,
+      "recall": 0.7096774193548387,
+      "f1-score": 0.75,
       "support": 93.0
     },
     "unclassified_other": {
-      "precision": 0.9726027397260274,
+      "precision": 0.9770642201834863,
       "recall": 1.0,
-      "f1-score": 0.9861111111111112,
+      "f1-score": 0.988399071925754,
       "support": 213.0
     },
     "wildfire": {
-      "precision": 0.9818481848184818,
+      "precision": 0.9850993377483444,
       "recall": 0.9834710743801653,
-      "f1-score": 0.9826589595375722,
+      "f1-score": 0.9842845326716294,
       "support": 605.0
     },
-    "accuracy": 0.9542168674698795,
+    "accuracy": 0.9530120481927711,
     "macro avg": {
-      "precision": 0.8866663547713706,
-      "recall": 0.8761016815269015,
-      "f1-score": 0.8808466101294136,
+      "precision": 0.8794998883530422,
+      "recall": 0.876911342160609,
+      "f1-score": 0.8776990600717048,
       "support": 1660.0
     },
     "weighted avg": {
-      "precision": 0.9532066282894665,
-      "recall": 0.9542168674698795,
-      "f1-score": 0.9535089475905617,
+      "precision": 0.952642928672951,
+      "recall": 0.9530120481927711,
+      "f1-score": 0.9526427645365162,
       "support": 1660.0
     }
   },
   "confusion_matrix": [
     [
-      477,
-      7,
+      476,
+      8,
       0,
       0,
       0,
       0
     ],
     [
-      5,
-      29,
+      6,
+      30,
       0,
       0,
       1,
-      10
+      8
     ],
     [
       0,
       0,
-      203,
-      15,
-      2,
+      202,
+      17,
+      1,
       0
     ],
     [
       0,
       0,
-      22,
-      67,
+      23,
+      66,
       3,
       1
     ],
@@ -120,9 +120,9 @@
     ],
     [
       0,
-      7,
-      2,
+      9,
       1,
+      0,
       0,
       595
     ]
@@ -130,42 +130,42 @@
   "feature_importance": [
     {
       "feature": "landcover_class",
-      "importance": 0.5032
+      "importance": 0.5172
     },
     {
       "feature": "daynight",
-      "importance": 0.2191
+      "importance": 0.2003
     },
     {
       "feature": "distance_to_facility_m",
-      "importance": 0.1518
+      "importance": 0.1595
     },
     {
       "feature": "unique_days",
-      "importance": 0.0501
+      "importance": 0.0493
     },
     {
       "feature": "bright_ti4",
-      "importance": 0.0242
+      "importance": 0.0246
     },
     {
       "feature": "confidence",
-      "importance": 0.0205
+      "importance": 0.0185
     },
     {
       "feature": "detection_count",
-      "importance": 0.015
+      "importance": 0.0148
     },
     {
       "feature": "bright_ti5",
-      "importance": 0.0083
+      "importance": 0.0081
     },
     {
       "feature": "frp",
-      "importance": 0.0079
+      "importance": 0.0077
     }
   ],
   "saved_model_matches": true,
   "saved_model_accuracy": 0.9542,
-  "train_seconds": 1.6
+  "train_seconds": 2.2
 }

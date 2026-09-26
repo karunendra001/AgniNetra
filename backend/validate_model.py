@@ -211,7 +211,7 @@ def main():
         "",
         f"*Generated {time.strftime('%Y-%m-%d %H:%M UTC', time.gmtime())} · run `python validate_model.py` to regenerate*",
     ]
-    (REPORTS / "MODEL_VALIDATION.md").write_text("\n".join(md))
+    (REPORTS / "MODEL_VALIDATION.md").write_text("\n".join(md), encoding="utf-8")
 
     payload = {
         "generated_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -237,7 +237,7 @@ def main():
         "saved_model_accuracy": round(saved_acc, 4) if saved_acc is not None else None,
         "train_seconds": round(time.time() - t0, 1),
     }
-    (REPORTS / "validation_report.json").write_text(json.dumps(payload, indent=2))
+    (REPORTS / "validation_report.json").write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"Wrote {REPORTS/'validation_report.json'}, MODEL_VALIDATION.md, 2 charts "
           f"({payload['train_seconds']}s)")
 
