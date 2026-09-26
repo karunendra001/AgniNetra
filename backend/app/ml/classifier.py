@@ -53,14 +53,35 @@ def _load_payload():
     if _LOAD_TRIED:
         return _PAYLOAD
     _LOAD_TRIED = True
-    if MODEL_PATH.exists():
+
+    candidates = []
+    if settings.model_path:
+        candidates.append(Path(settings.model_path))
+    candidates.extend([
+        Path("ml/model.pkl"),
+        Path("backend/ml/model.pkl"),
+        Path(__file__).resolve().parent / "model.pkl",
+        Path(__file__).resolve().parents[1] / "ml" / "model.pkl",
+        Path(__file__).resolve().parents[2] / "ml" / "model.pkl",
+    ])
+
+    model_file = None
+    for c in candidates:
         try:
-            _PAYLOAD = joblib.load(MODEL_PATH)
-            log.info("ML model loaded: %s (features: %s)", MODEL_PATH.name, _PAYLOAD["feature_cols"])
+            if c.exists() and c.is_file():
+                model_file = c
+                break
         except Exception:
-            log.exception("Failed to load model - will use rule fallback")
+            continue
+
+    if model_file:
+        try:
+            _PAYLOAD = joblib.load(model_file)
+            log.info("ML model loaded: %s (features: %s)", model_file, _PAYLOAD.get("feature_cols"))
+        except Exception as e:
+            log.exception("Failed to load model from %s: %s", model_file, e)
     else:
-        log.warning("No model at %s - will use rule fallback", MODEL_PATH)
+        log.warning("No model found at candidates: %s - using rule fallback", [str(c) for c in candidates])
     return _PAYLOAD
 
 
