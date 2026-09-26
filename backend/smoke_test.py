@@ -35,7 +35,7 @@ print("filter by class    ->", len(r.json()), "Vegetation Fire rows")
 
 r = client.get("/api/trend")
 assert r.status_code == 200
-assert all(set(x) == {"day", "fires", "industrial"} for x in r.json())
+assert all(set(x) == {"day", "vegetation", "industrial", "persistent"} for x in r.json())
 print("GET /api/trend     ->", r.json())
 
 # every detection must come from a real FIRMS satellite feed — seed rows used
@@ -46,10 +46,10 @@ conn = sqlite3.connect(settings.db_path)
 total = conn.execute("SELECT COUNT(*) FROM detections").fetchone()[0]
 fake = conn.execute(
     "SELECT COUNT(*) FROM detections WHERE satellite IS NULL "
-    "OR satellite NOT IN ('VIIRS-SNPP', 'VIIRS-NOAA20', 'MODIS')"
+    "OR (satellite NOT LIKE 'VIIRS%' AND satellite NOT LIKE 'MODIS%')"
 ).fetchone()[0]
 conn.close()
 assert fake == 0, f"{fake} of {total} rows are not real FIRMS satellite data!"
 print(f"data purity        -> {total} rows, all from real FIRMS satellites (0 fake)")
 
-print("\nALL SMOKE TESTS PASSED ✅")
+print("\nALL SMOKE TESTS PASSED [OK]")

@@ -8,6 +8,8 @@ backend/__pycache__/
 *.pyc
 backend/.env          # contains the NASA MAP_KEY - NEVER commit this
 backend/data/         # local database, everyone builds their own
+data/*.db
+*.sqlite3
 backend/backend_server.log
 backend/server.log
 backend/backend.pid
